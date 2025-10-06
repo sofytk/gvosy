@@ -41,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import gvosy.composeapp.generated.resources.Res
 import gvosy.composeapp.generated.resources.icon_arrow
+import gvosy.composeapp.generated.resources.icon_arrow1
 import gvosy.composeapp.generated.resources.icon_arrow_drawable
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -59,10 +60,13 @@ fun WelcomeScreen() {
         var width by remember { mutableStateOf(0f) }
         Column(
             modifier = Modifier.background(color = MaterialTheme.colorScheme.background)
-                .fillMaxSize().padding(top = 600.dp),
+                .fillMaxSize().onGloballyPositioned { coordinates ->
+                height = coordinates.size.height.toFloat()
+                width = coordinates.size.width.toFloat()
+            },
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
         ) {
+            Spacer(Modifier.height((height/6).dp))
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -71,7 +75,6 @@ fun WelcomeScreen() {
                 arrayOfColors.add(MaterialTheme.colorScheme.primary)
                 arrayOfColors.add(MaterialTheme.colorScheme.tertiary)
                 arrayOfColors.add(MaterialTheme.colorScheme.primary)
-
                 Text(
                     text = "Gvosy",
                     color = MaterialTheme.colorScheme.primary,
@@ -86,7 +89,7 @@ fun WelcomeScreen() {
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
-                    shape = RoundedCornerShape(50), // делает кнопку овальной
+                    shape = RoundedCornerShape(cornerRadius),
                     contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
                     onClick = {}
                 ) {
@@ -97,9 +100,9 @@ fun WelcomeScreen() {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Image(
-                        painter = painterResource(Res.drawable.icon_arrow),
+                        painter = painterResource(Res.drawable.icon_arrow1),
                         contentDescription = "Voice icon",
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(30.dp)
                     )
                 }
 
@@ -107,10 +110,7 @@ fun WelcomeScreen() {
         }
 
         Box(Modifier.blur(200.dp)) {
-            Box(Modifier.fillMaxSize().onGloballyPositioned { coordinates ->
-                height = coordinates.size.height.toFloat()
-                width = coordinates.size.width.toFloat()
-            }) {
+            Box(Modifier.fillMaxSize()) {
                 Circle(MaterialTheme.colorScheme.primary, x = width / 8, height / 8 * 0.2f)
                 Circle(MaterialTheme.colorScheme.secondary, x = width / 5 * 0.5f, height / 4 * 3)
                 Circle(MaterialTheme.colorScheme.primary, x = width / 8 * 8.2f, height / 2)
