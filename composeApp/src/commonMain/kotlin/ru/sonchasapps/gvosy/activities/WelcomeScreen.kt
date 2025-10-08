@@ -91,7 +91,7 @@ fun WelcomeScreen() {
                     ),
                     shape = RoundedCornerShape(cornerRadius),
                     contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                    onClick = {}
+                    onClick = { }
                 ) {
                     Text(
                         modifier = Modifier.padding(end = 1.dp), text = "Talk to me",

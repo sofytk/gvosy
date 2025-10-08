@@ -1,12 +1,15 @@
 package ru.sonchasapps.gvosy
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import ru.sonchasapps.gvosy.activities.App
+import ru.sonchasapps.gvosy.activities.CreateAssistantScreen
 import ru.sonchasapps.gvosy.activities.WelcomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -15,7 +18,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            WelcomeScreen()
+            CreateAssistantScreen()
         }
     }
 }
