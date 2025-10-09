@@ -1,20 +1,39 @@
 package ru.sonchasapps.gvosy.activities
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuBoxScope
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,18 +46,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import gvosy.composeapp.generated.resources.Res
+import gvosy.composeapp.generated.resources.icon_arrow1
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.theme.ui.theme.bodyTextSize
+import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadius
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadiusTextField
+import ru.sonchasapps.gvosy.theme.ui.theme.subTitleTextSize
+import ru.sonchasapps.gvosy.theme.ui.theme.titleTextSize
 import ru.sonchasapps.gvosy.ui_components.MyTextField
 
+
+@ExperimentalMaterial3Api
 @Composable
 @Preview
 
@@ -60,7 +89,7 @@ fun CreateAssistantScreen() {
 
             Spacer(Modifier.height((height / 10).dp))
 
-            Text(text = "Create your assistant", fontSize = bodyTextSize)
+            Text(text = "Create your assistant", fontSize = subTitleTextSize)
             Spacer(Modifier.height((height / 40).dp))
 
             var assistantName by rememberSaveable { mutableStateOf("") }
@@ -79,7 +108,7 @@ fun CreateAssistantScreen() {
                             MaterialTheme.colorScheme.onBackground,
                             MaterialTheme.colorScheme.primary
                         ),
-                        start = Offset(0f, 5f),
+                        start = Offset.Zero,
                         end = Offset.Infinite
                     )
                 ),
@@ -91,42 +120,78 @@ fun CreateAssistantScreen() {
 
             OutlinedTextField(
                 value = assistantAge,
-            onValueChange = { assistantAge = it },
-            modifier = Modifier.width((width / 3).dp),
-            placeholder = { Text("Age") },
-            textStyle = TextStyle(
-                brush = Brush.linearGradient(
-                    colors = listOf(
-                        MaterialTheme.colorScheme.onBackground,
-                        MaterialTheme.colorScheme.primary
-                    ),
-                    start = Offset(0f, 5f),
-                    end = Offset.Infinite
-                )
-            ),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            shape = RoundedCornerShape(cornerRadiusTextField)
-            )
-
-            Spacer(Modifier.height((height / 50).dp))
-            OutlinedTextField(
-                value = assistantSex,
-                onValueChange = { assistantSex = it },
+                onValueChange = { assistantAge = it },
                 modifier = Modifier.width((width / 3).dp),
-                placeholder = { Text("Mela/Female") },
+                placeholder = { Text("Age") },
                 textStyle = TextStyle(
                     brush = Brush.linearGradient(
                         colors = listOf(
                             MaterialTheme.colorScheme.onBackground,
                             MaterialTheme.colorScheme.primary
                         ),
-                        start = Offset(0f, 5f),
+                        start = Offset.Zero,
                         end = Offset.Infinite
                     )
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 shape = RoundedCornerShape(cornerRadiusTextField)
             )
+
+            Spacer(Modifier.height((height / 50).dp))
+
+            val options = listOf("None", "Female", "Male")
+            var expanded by remember { mutableStateOf(false) }
+
+            ExposedDropdownMenuBox(
+                expanded = expanded,
+                onExpandedChange = {
+                    expanded = !expanded
+                }
+            ) {
+                OutlinedTextField(
+                    value = assistantSex,
+                    readOnly = true,
+                    onValueChange = {},
+                    trailingIcon = {
+                        ExposedDropdownMenuDefaults.TrailingIcon(
+                            expanded = expanded
+                        )
+                    },
+                    modifier = Modifier
+                        .width((width / 3).dp)
+                        .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                    placeholder = { Text("Gender") },
+                    textStyle = TextStyle(
+                        brush = Brush.linearGradient(
+                            colors = listOf(
+                                MaterialTheme.colorScheme.onBackground,
+                                MaterialTheme.colorScheme.primary
+                            ),
+                            start = Offset.Zero,
+                            end = Offset.Infinite
+                        )
+                    ),
+                    shape = RoundedCornerShape(cornerRadiusTextField)
+                )
+                ExposedDropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = {
+                        expanded = false
+                    }
+                ) {
+                    options.forEach { selectionOption ->
+                        DropdownMenuItem(
+                            onClick = {
+                                assistantSex = selectionOption
+                                expanded = false
+                            },
+                            text = { Text(text = selectionOption) },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                        )
+                    }
+                }
+            }
+
             Spacer(Modifier.height((height / 50).dp))
 
             OutlinedTextField(
@@ -140,14 +205,35 @@ fun CreateAssistantScreen() {
                             MaterialTheme.colorScheme.onBackground,
                             MaterialTheme.colorScheme.primary
                         ),
-                        start = Offset(0f, 1f),
+                        start = Offset.Zero,
                         end = Offset.Infinite
                     )
                 ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 shape = RoundedCornerShape(cornerRadiusTextField)
             )
+
+            Spacer(Modifier.height((height / 30).dp))
+
+            Button(
+                modifier = Modifier.height(54.dp).width((width/15).dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ),
+                shape = RoundedCornerShape(cornerRadius),
+                contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
+                onClick = { }
+            ) {
+                Text(
+                    modifier = Modifier.padding(end = 1.dp), text = "Generate",
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    fontSize = btnTextSize
+                )
+            }
         }
     }
 }
+
+
 
