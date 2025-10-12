@@ -1,40 +1,26 @@
 package ru.sonchasapps.gvosy.activities
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 
 import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuBoxScope
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
@@ -46,32 +32,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import gvosy.composeapp.generated.resources.Res
-import gvosy.composeapp.generated.resources.icon_arrow1
-import org.jetbrains.compose.resources.painterResource
+import androidx.navigation.NavHostController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
-import ru.sonchasapps.gvosy.theme.ui.theme.bodyTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadius
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadiusTextField
 import ru.sonchasapps.gvosy.theme.ui.theme.subTitleTextSize
-import ru.sonchasapps.gvosy.theme.ui.theme.titleTextSize
-import ru.sonchasapps.gvosy.ui_components.MyTextField
 
 
 @ExperimentalMaterial3Api
 @Composable
 @Preview
 
-fun CreateAssistantScreen() {
+fun CreateAssistantScreen(navController: NavHostController) {
 
     AppTheme {
         var height by remember { mutableStateOf(0f) }
@@ -223,7 +201,7 @@ fun CreateAssistantScreen() {
                 ),
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                onClick = { }
+                onClick = { navController.navigate("approved_assistant_screen") }
             ) {
                 Text(
                     modifier = Modifier.padding(end = 1.dp), text = "Generate",

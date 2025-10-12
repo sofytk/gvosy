@@ -3,7 +3,6 @@ package ru.sonchasapps.gvosy.activities
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -14,49 +13,34 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import gvosy.composeapp.generated.resources.Res
 import gvosy.composeapp.generated.resources.avatar_dove
-import gvosy.composeapp.generated.resources.compose_multiplatform
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.theme.ui.theme.bodyTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadius
-import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadiusTextField
-import ru.sonchasapps.gvosy.theme.ui.theme.subTitleTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.titleTextSize
 
 
 @Composable
-fun ApprovedAssistantScreen(){
+fun ApprovedAssistantScreen(navController: NavHostController) {
     AppTheme {
         var height by remember { mutableStateOf(0f) }
         var width by remember { mutableStateOf(0f) }
@@ -101,7 +85,7 @@ fun ApprovedAssistantScreen(){
                 ),
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                onClick = { }
+                onClick = { navController.navigate("home_screen") }
             ) {
                 Text(
                     modifier = Modifier.padding(end = 1.dp), text = "Start",
@@ -119,7 +103,7 @@ fun ApprovedAssistantScreen(){
                 border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                onClick = { }
+                onClick = { navController.popBackStack() }
             ) {
                 Text(
                     modifier = Modifier.padding(end = 1.dp), text = "Reply",
