@@ -8,7 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
-    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.androidx.room)
 
 }
 
@@ -31,10 +32,10 @@ kotlin {
     
     jvm()
     
-    js {
-        browser()
-        binaries.executable()
-    }
+//    js {
+//        browser()
+//        binaries.executable()
+//    }
     
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
@@ -46,7 +47,8 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.sqldelight.android)
+
+            implementation(libs.androidx.room.sqlite.wrapper)
 
         }
         commonMain.dependencies {
@@ -59,7 +61,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
-            implementation(libs.sqldelight.coroutines)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundled)
 
         }
         commonTest.dependencies {
@@ -68,28 +71,13 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-            implementation(libs.sqldelight.desktop)
+
         }
         iosMain.dependencies {
-            implementation(libs.sqldelight.ios)
+
         }
     }
 }
-
-sqldelight {
-    databases {
-        create("UserDb") {
-            packageName = "ru.sonchasapps.gvosy.commonMain.user_database"
-        }
-        create("AssistantDb") {
-            packageName = "ru.sonchasapps.gvosy.commonMain.assistant_database"
-        }
-        create("MessagesDb") {
-            packageName = "ru.sonchasapps.gvosy.commonMain.messages_database"
-        }
-    }
-}
-
 
 android {
     namespace = "ru.sonchasapps.gvosy"
@@ -120,6 +108,13 @@ android {
 
 dependencies {
     debugImplementation(compose.uiTooling)
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    //add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+}
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 compose.desktop {
