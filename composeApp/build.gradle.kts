@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.sqldelight)
+
 }
 
 kotlin {
@@ -34,16 +36,18 @@ kotlin {
         binaries.executable()
     }
     
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//        binaries.executable()
+//    }
     
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.sqldelight.android)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -55,6 +59,8 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
+            implementation(libs.sqldelight.coroutines)
+
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -62,9 +68,28 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.sqldelight.desktop)
+        }
+        iosMain.dependencies {
+            implementation(libs.sqldelight.ios)
         }
     }
 }
+
+sqldelight {
+    databases {
+        create("UserDb") {
+            packageName = "ru.sonchasapps.gvosy.commonMain.user_database"
+        }
+        create("AssistantDb") {
+            packageName = "ru.sonchasapps.gvosy.commonMain.assistant_database"
+        }
+        create("MessagesDb") {
+            packageName = "ru.sonchasapps.gvosy.commonMain.messages_database"
+        }
+    }
+}
+
 
 android {
     namespace = "ru.sonchasapps.gvosy"
