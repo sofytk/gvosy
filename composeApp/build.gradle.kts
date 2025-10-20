@@ -27,6 +27,7 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "ComposeApp"
             isStatic = true
+            linkerOpts.add("-lsqlite3")
         }
     }
     
@@ -47,7 +48,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
-
+            implementation(libs.insert.koin.koin.android)
             implementation(libs.androidx.room.sqlite.wrapper)
 
         }
@@ -63,6 +64,8 @@ kotlin {
             implementation(libs.navigation.compose)
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
 
         }
         commonTest.dependencies {

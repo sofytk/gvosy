@@ -108,7 +108,6 @@ fun HomeScreen(navController: NavHostController) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // Кнопка добавления (слева)
                     IconButton(
                         modifier = Modifier.size(40.dp)
                             .clickable(
@@ -128,7 +127,6 @@ fun HomeScreen(navController: NavHostController) {
                         )
                     }
 
-                    // Поле ввода текста (по центру)
                     OutlinedTextField(
                         value = text,
                         onValueChange = { text = it },
