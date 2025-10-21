@@ -49,6 +49,8 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.insert.koin.koin.android)
+
+            implementation(libs.koin.androidx.compose)
             implementation(libs.androidx.room.sqlite.wrapper)
 
         }
@@ -63,9 +65,11 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.navigation.compose)
             implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.room.ktx)
             implementation(libs.androidx.sqlite.bundled)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.kotlinx.coroutines.core)
 
         }
         commonTest.dependencies {

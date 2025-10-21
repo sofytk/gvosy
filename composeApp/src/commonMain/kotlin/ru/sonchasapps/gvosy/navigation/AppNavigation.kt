@@ -10,15 +10,13 @@ import ru.sonchasapps.gvosy.activities.CreateAssistantScreen
 import ru.sonchasapps.gvosy.activities.HomeScreen
 import ru.sonchasapps.gvosy.activities.LogUser
 import ru.sonchasapps.gvosy.activities.WelcomeScreen
-import ru.sonchasapps.gvosy.database.UserViewModel
+import ru.sonchasapps.gvosy.viewModels.UserViewModel
 import org.koin.compose.koinInject
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation() {
+fun AppNavigation(userViewModel: UserViewModel) {
     val navController = rememberNavController()
-    val userViewModel: UserViewModel = koinInject()
-
 
     NavHost(
         navController = navController,

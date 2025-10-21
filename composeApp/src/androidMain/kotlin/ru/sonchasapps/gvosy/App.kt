@@ -8,12 +8,11 @@ import ru.sonchasapps.gvosy.database.appModule
 
 class App : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        startKoin {
-            val context = this@App as Context
-            androidContext(context)
-            modules(appModule)
-        }
-    }
+//    override fun onCreate() {
+//        super.onCreate()
+////        startKoin {
+////            androidContext(this@App)
+////            modules(appModule + androidDatabaseModule)
+////        }
+//    }
 }

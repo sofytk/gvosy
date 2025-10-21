@@ -34,7 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import ru.sonchasapps.gvosy.database.UserViewModel
+import ru.sonchasapps.gvosy.viewModels.UserViewModel
 import ru.sonchasapps.gvosy.database.entities.User
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize

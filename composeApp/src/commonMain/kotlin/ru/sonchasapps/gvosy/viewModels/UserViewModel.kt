@@ -1,4 +1,4 @@
-package ru.sonchasapps.gvosy.database
+package ru.sonchasapps.gvosy.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import ru.sonchasapps.gvosy.database.entities.User
 import ru.sonchasapps.gvosy.database.repositories.UserRepository
-
 
 class UserViewModel(
         private val repo: UserRepository
