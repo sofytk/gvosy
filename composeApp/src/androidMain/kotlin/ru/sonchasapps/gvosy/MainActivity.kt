@@ -17,6 +17,7 @@ import ru.sonchasapps.gvosy.activities.WelcomeScreen
 import ru.sonchasapps.gvosy.viewModels.UserViewModel
 import ru.sonchasapps.gvosy.database.appModule
 import ru.sonchasapps.gvosy.navigation.AppNavigation
+import ru.sonchasapps.gvosy.viewModels.AssistantViewModel
 
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -30,7 +31,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val userViewModel: UserViewModel by viewModel()
-            AppNavigation(userViewModel)
+            val assistantViewModel: AssistantViewModel by viewModel()
+            AppNavigation(userViewModel, assistantViewModel)
         }
     }
 }

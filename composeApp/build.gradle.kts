@@ -49,9 +49,9 @@ kotlin {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.insert.koin.koin.android)
-
             implementation(libs.koin.androidx.compose)
             implementation(libs.androidx.room.sqlite.wrapper)
+            implementation(libs.ktor.client.okhttp)
 
         }
         commonMain.dependencies {
@@ -70,6 +70,10 @@ kotlin {
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
 
         }
         commonTest.dependencies {
@@ -81,7 +85,7 @@ kotlin {
 
         }
         iosMain.dependencies {
-
+            implementation(libs.ktor.client.darwin)
         }
     }
 }

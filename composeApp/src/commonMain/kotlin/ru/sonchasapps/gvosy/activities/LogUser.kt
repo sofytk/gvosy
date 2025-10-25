@@ -12,11 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +31,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.sonchasapps.gvosy.viewModels.UserViewModel
-import ru.sonchasapps.gvosy.database.entities.User
+import ru.sonchasapps.gvosy.database.entities.UserEntity
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadius
@@ -95,7 +91,7 @@ fun LogUser(navController: NavHostController, viewModel: UserViewModel) {
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
                 onClick = {
-                    viewModel.addUser(User(userName = userName, usersAssistantId = 0, usersMessagesId = 0))
+                    viewModel.addUser(UserEntity(userName = userName, usersAssistantId = 0, usersMessagesId = 0, userEmail = null))
                     navController.navigate("create_assistant_screen") }
             ) {
                 Text(

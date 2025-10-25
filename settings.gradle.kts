@@ -10,7 +10,9 @@ pluginManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
-        mavenCentral()
+        mavenCentral{
+            url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap")
+        }
         gradlePluginPortal()
     }
 }

@@ -38,18 +38,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ru.sonchasapps.gvosy.database.entities.AssistantEntity
 import ru.sonchasapps.gvosy.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadius
 import ru.sonchasapps.gvosy.theme.ui.theme.cornerRadiusTextField
 import ru.sonchasapps.gvosy.theme.ui.theme.subTitleTextSize
+import ru.sonchasapps.gvosy.viewModels.AssistantViewModel
 
 
 @ExperimentalMaterial3Api
 @Composable
 @Preview
-
-fun CreateAssistantScreen(navController: NavHostController) {
+fun CreateAssistantScreen(navController: NavHostController, assistantViewModel: AssistantViewModel) {
 
     AppTheme {
         var height by remember { mutableStateOf(0f) }
@@ -201,7 +202,20 @@ fun CreateAssistantScreen(navController: NavHostController) {
                 ),
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                onClick = { navController.navigate("approved_assistant_screen") }
+                onClick = {
+                    val assistantEntity = AssistantEntity(
+                        assistantName = assistantName,
+                        assistantAge = assistantAge.toInt(),
+                        assistantImg = null,
+                        assistantDescription = assistantDescriptions,
+                        assistantSex = assistantSex,
+                        assistantMessageLimit = 100,
+                        assistantMessagesId = "",
+                        userId = TODO("Think how set userId")
+                    )
+                    assistantViewModel.insertAssistant(assistantEntity)
+                    navController.navigate("approved_assistant_screen")
+                }
             ) {
                 Text(
                     modifier = Modifier.padding(end = 1.dp), text = "Generate",
