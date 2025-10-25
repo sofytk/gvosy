@@ -32,7 +32,9 @@ fun AppNavigation(userViewModel: UserViewModel, assistantViewModel: AssistantVie
             LogUser(navController, viewModel = userViewModel)
         }
         composable("create_assistant_screen") {
-            CreateAssistantScreen(navController, viewModel = assistantViewModel)
+            CreateAssistantScreen(
+                navController, assistantViewModel = assistantViewModel
+            )
         }
         composable("approved_assistant_screen") {
             ApprovedAssistantScreen(navController)
