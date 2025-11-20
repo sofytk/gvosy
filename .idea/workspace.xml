@@ -37,6 +37,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "sofytk"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/sofytk/gvosy.git",
+    "accountId": "c9c17a35-e751-4361-8910-065dbff93cf7"
+  }
+}]]></component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\user\.gradle\wrapper\dists\gradle-8.14.3-bin\cv11ve7ro1n3o1j4so8xd9n66\gradle-8.14.3" javaHome="C:\Users\user\AppData\Local\Programs\Android Studio\jbr" gradleVersion="8.14.3" />
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -60,7 +72,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_directory_selection": "C:/Users/user/Documents/MyApps/Gvosy/composeApp/src/commonMain/kotlin/ru/sonchasapps/gvosy/data/local",
     "last_opened_file_path": "C:/Users/user/Documents/MyApps/gvosy_backend",
@@ -164,6 +176,17 @@
       <updated>1762073033480</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="play_dynamic_filters_status">
     <option name="appIdToCheckInfo">
