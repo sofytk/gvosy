@@ -7,6 +7,9 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
+<<<<<<< HEAD
     kotlin("plugin.serialization") version "1.9.0" apply false
 
+=======
+>>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
 }
