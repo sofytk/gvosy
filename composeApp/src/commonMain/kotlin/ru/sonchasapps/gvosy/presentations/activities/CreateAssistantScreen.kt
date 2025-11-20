@@ -214,17 +214,17 @@ fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostCo
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
                 onClick = {
-                    val assistantEntity = AssistantEntity(
-                        assistantName = assistantName,
-                        assistantAge = assistantAge.toInt(),
-                        assistantImg = null,
-                        assistantDescription = assistantDescriptions,
-                        assistantSex = assistantSex,
-                        assistantMessageLimit = 100,
-//                        assistantMessagesId = "",
-                    )
-                    assistantViewModel.insertAssistant(assistantEntity)
-                    navController.navigate("approved_assistant_screen")
+//                    val assistantEntity = AssistantEntity(
+//                        assistantName = assistantName,
+//                        assistantAge = assistantAge.toInt(),
+//                        assistantImg = null,
+//                        assistantDescription = assistantDescriptions,
+//                        assistantSex = assistantSex,
+//                        assistantMessageLimit = 100,
+////                        assistantMessagesId = "",
+//                    )
+//                    assistantViewModel.insertAssistant(assistantEntity)
+//                    navController.navigate("approved_assistant_screen")
                 }
             ) {
                 Text(

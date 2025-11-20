@@ -1,8 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-<<<<<<< HEAD
-=======
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
->>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -13,11 +9,7 @@ plugins {
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
-<<<<<<< HEAD
     kotlin("plugin.serialization")
-=======
-
->>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
 }
 
 kotlin {
@@ -81,14 +73,9 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
-<<<<<<< HEAD
             implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
         }
 
-=======
-
-        }
->>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -120,15 +107,11 @@ android {
         }
     }
     buildTypes {
-<<<<<<< HEAD
 //        getByName("release") {
 //            isMinifyEnabled = false
 //        }
         debug {
             isDebuggable = true
-=======
-        getByName("release") {
->>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
             isMinifyEnabled = false
         }
     }
@@ -145,10 +128,7 @@ dependencies {
     //add("kspIosX64", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 12631ca0a4545840dae7869c72374147e61760c4
 room {
     schemaDirectory("$projectDir/schemas")
 }
