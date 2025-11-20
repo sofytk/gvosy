@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "ru.sonchasapps.gvosy.composeApp-mergeDebugResources-48:/values-h720dp-v13/values-h720dp-v13.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.14.3\\transforms\\8a3d935ae759eca125f14f3d24d85bbf\\transformed\\appcompat-1.7.1\\res\\values-h720dp-v13\\values-h720dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "66",
+                        "endOffsets": "117"
+                    }
+                }
+            ]
+        }
+    ]
+}
