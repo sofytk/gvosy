@@ -7,8 +7,6 @@ import kotlinx.serialization.Serializable
 data class UserResponse(
     @SerialName("name")
     val userName: String,
-    @SerialName("email")
-    val userEmail: String?,
     @SerialName("token")
     val userToken: String?,
     @SerialName("isPremium")
@@ -17,7 +15,6 @@ data class UserResponse(
     fun toEntity(): UserEntity {
         return UserEntity(
             userName = this.userName,
-            userEmail = this.userEmail,
             userToken = this.userToken,
             isPremium = this.isPremium,
         )

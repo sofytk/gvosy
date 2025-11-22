@@ -15,8 +15,7 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
 
 class UserRepositoryImpl (private val userDao: UsersDao,
-                          private val api: AuthApi,
-                          /*private val syncManager: DataSyncManager*/) : UserRepository{
+                          private val api: AuthApi, ) : UserRepository{
 
     override suspend fun registerUser(request: AuthRequest): Result<UserEntity> = withContext(Dispatchers.IO){
         return@withContext try {
@@ -24,7 +23,6 @@ class UserRepositoryImpl (private val userDao: UsersDao,
             println("UserRepositoryImpl: calling registerUser with ${request.userName}")
             val user = UserResponse(
                 userName = response.userData.userName,
-                userEmail = response.userData.userEmail,
                 userToken = response.accessToken,
     //                usersAssistantId = response.userData.usersAssistantId,
                 isPremium = response.userData.isPremium,
@@ -42,7 +40,6 @@ class UserRepositoryImpl (private val userDao: UsersDao,
             val response = api.login(request)
             val user = UserResponse(
                 userName = response.userData.userName,
-                userEmail =  response.userData.userEmail,
                 userToken = response.accessToken,
     //                usersAssistantId = response.userData.usersAssistantId,
                 isPremium = response.userData.isPremium,
@@ -54,8 +51,11 @@ class UserRepositoryImpl (private val userDao: UsersDao,
         }
     }
 
-    override suspend fun logout(user : UserEntity) = withContext(Dispatchers.IO){
-        userDao.delete(user)
+    override suspend fun deleteAll() {
+        userDao.deleteAll()
+    }
+    override suspend fun logout() = withContext(Dispatchers.IO){
+        userDao.deleteAll()
     }
 
     override suspend fun getCurrentUser(): UserEntity? = withContext(Dispatchers.IO){

@@ -224,7 +224,7 @@ fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostCo
 ////                        assistantMessagesId = "",
 //                    )
 //                    assistantViewModel.insertAssistant(assistantEntity)
-//                    navController.navigate("approved_assistant_screen")
+                    navController.navigate("approved_assistant_screen")
                 }
             ) {
                 Text(

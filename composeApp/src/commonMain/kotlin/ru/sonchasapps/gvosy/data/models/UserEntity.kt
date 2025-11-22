@@ -14,8 +14,6 @@ data class UserEntity(
     val id: Long = 0,
     @SerialName("name")
     val userName: String,
-    @SerialName("email")
-    val userEmail: String?,
     @SerialName("token")
     val userToken: String?,
 //    @SerialName("assistant_data")

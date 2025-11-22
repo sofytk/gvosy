@@ -34,11 +34,11 @@ public class UsersDatabase_Impl : UsersDatabase() {
   }
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(2, "a93dfb986787ecf7f0d4c4e2f75d9e3a", "4972a1955643ed850cd4a2966f4bbe9d") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(3, "16496d2d680d8b8c9f5c7d4781b7257a", "191471d42138c0f2a6565e8f7be1bb3a") {
       public override fun createAllTables(connection: SQLiteConnection) {
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `users_database` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userName` TEXT NOT NULL, `userEmail` TEXT, `userToken` TEXT, `isPremium` INTEGER NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `users_database` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `userName` TEXT NOT NULL, `userToken` TEXT, `isPremium` INTEGER NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a93dfb986787ecf7f0d4c4e2f75d9e3a')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '16496d2d680d8b8c9f5c7d4781b7257a')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -63,7 +63,6 @@ public class UsersDatabase_Impl : UsersDatabase() {
         val _columnsUsersDatabase: MutableMap<String, TableInfo.Column> = mutableMapOf()
         _columnsUsersDatabase.put("id", TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsUsersDatabase.put("userName", TableInfo.Column("userName", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsUsersDatabase.put("userEmail", TableInfo.Column("userEmail", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsUsersDatabase.put("userToken", TableInfo.Column("userToken", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsUsersDatabase.put("isPremium", TableInfo.Column("isPremium", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         val _foreignKeysUsersDatabase: MutableSet<TableInfo.ForeignKey> = mutableSetOf()

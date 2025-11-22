@@ -26,6 +26,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val userViewModel: UserViewModel by viewModel()
+            userViewModel.checkAuth()
             val assistantViewModel: AssistantViewModel by viewModel()
             AppNavigation(userViewModel, assistantViewModel)
         }

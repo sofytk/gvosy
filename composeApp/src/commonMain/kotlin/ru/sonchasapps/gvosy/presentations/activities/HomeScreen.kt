@@ -49,10 +49,11 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.sonchasapps.gvosy.presentations.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.presentations.theme.ui.theme.bodyTextSize
+import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
 
 @Preview
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavHostController, userViewModel: UserViewModel) {
     AppTheme() {
         var height by remember { mutableStateOf(0f) }
         var width by remember { mutableStateOf(0f) }
@@ -112,7 +113,7 @@ fun HomeScreen(navController: NavHostController) {
                             .clickable(
                                 interactionSource = MutableInteractionSource(),
                                 indication = null
-                            ) { /* действие для микрофона */ },
+                            ) { },
                         colors = IconButtonDefaults.iconButtonColors(
                             contentColor = MaterialTheme.colorScheme.primary,
                             disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
