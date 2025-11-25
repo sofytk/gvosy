@@ -12,7 +12,8 @@ import ru.sonchasapps.gvosy.domain.AuthState
 import ru.sonchasapps.gvosy.presentations.activities.ApprovedAssistantScreen
 import ru.sonchasapps.gvosy.presentations.activities.CreateAssistantScreen
 import ru.sonchasapps.gvosy.presentations.activities.HomeScreen
-import ru.sonchasapps.gvosy.presentations.activities.LogUser
+import ru.sonchasapps.gvosy.presentations.activities.LogInScreen
+import ru.sonchasapps.gvosy.presentations.activities.SignInScreen
 import ru.sonchasapps.gvosy.presentations.activities.SplashScreen
 import ru.sonchasapps.gvosy.presentations.activities.WelcomeScreen
 import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
@@ -54,8 +55,11 @@ fun AppNavigation(userViewModel: UserViewModel, assistantViewModel: AssistantVie
         composable("welcome_screen") {
             WelcomeScreen(navController)
         }
-        composable("log_user_screen") {
-            LogUser(navController, viewModel = userViewModel)
+        composable("sign_in_screen") {
+            SignInScreen(navController, viewModel = userViewModel)
+        }
+        composable("log_in_screen") {
+            LogInScreen(navController, viewModel = userViewModel)
         }
         composable("create_assistant_screen") {
             CreateAssistantScreen(

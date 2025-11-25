@@ -85,7 +85,7 @@ fun WelcomeScreen(navController: NavHostController) {
                     ),
                     shape = RoundedCornerShape(cornerRadius),
                     contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                    onClick = { navController.navigate("log_user_screen") }
+                    onClick = { navController.navigate("sign_in_screen") }
                 ) {
                     Text(
                         modifier = Modifier.padding(end = 1.dp), text = "Talk to me",
