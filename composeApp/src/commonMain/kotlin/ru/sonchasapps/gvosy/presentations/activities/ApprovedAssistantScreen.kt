@@ -73,7 +73,7 @@ fun ApprovedAssistantScreen(navController: NavHostController) {
 
             Spacer(Modifier.height((height / 50).dp))
 
-            Text(text = "Nice to meet you! Let’s start our chat", fontSize = bodyTextSize)
+            Text(text = "Nice to meet you! Let’s start our chat", fontSize = bodyTextSize, color = MaterialTheme.colorScheme.onBackground)
 
             Spacer(Modifier.height((height / 37).dp))
 

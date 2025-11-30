@@ -1,10 +1,9 @@
 package ru.sonchasapps.gvosy.data.repositories
 
 import ru.sonchasapps.gvosy.data.models.AssistantEntity
+import ru.sonchasapps.gvosy.data.models.AssistantRequest
 
 interface AssistantRepository {
-    suspend fun insertAssistant(assistantEntity: AssistantEntity)
-    suspend fun deleteAssistant(assistantEntity: AssistantEntity)
-    suspend fun updateAssistant(assistantEntity: AssistantEntity)
+    suspend fun addAssistant(assistantRequest: AssistantRequest) : Result<AssistantEntity>
     suspend fun getAssistant(id: Long) : AssistantEntity?
 }

@@ -5,6 +5,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
 import org.koin.dsl.module
+import ru.sonchasapps.gvosy.data.api.AssistantApi
 import ru.sonchasapps.gvosy.data.api.AuthApi
 import ru.sonchasapps.gvosy.data.repositories.AssistantRepository
 import ru.sonchasapps.gvosy.data.repositories.AssistantRepositoryImpl
@@ -30,11 +31,12 @@ val appModule = module {
     factory {
         UserViewModel(get())
     }
-
+    single{ AssistantApi(get()) }
     single<AssistantRepository> {
-        AssistantRepositoryImpl(get())
+        AssistantRepositoryImpl(get(), get())
     }
+
     factory {
-        AssistantViewModel(get())
+        AssistantViewModel(get(), get())
     }
 }

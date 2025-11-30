@@ -10,9 +10,8 @@ data class AssistantEntity(
     @PrimaryKey(autoGenerate = true) val id : Long= 0L,
     val assistantName : String,
     val assistantAge : Int,
-    val assistantSex : String,
+    val assistantSex : Boolean,
     val assistantDescription : String?,
-    val userId : Long,
-    val assistantImg : String?,
-    var assistantMessageLimit : Int,
-    )
+    val assistantImg : String? =  null,
+    var assistantMessageLimit : Int = 100
+)

@@ -34,11 +34,11 @@ public class AssistantDatabase_Impl : AssistantDatabase() {
   }
 
   protected override fun createOpenDelegate(): RoomOpenDelegate {
-    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(1, "f5f0af2c1dea9ae2378f58390a62388e", "05b2aa65677239256b1c3e67fb7bb9a1") {
+    val _openDelegate: RoomOpenDelegate = object : RoomOpenDelegate(1, "5c8fb574acba09f47c2eeb88a43f53dd", "7b030d842e52604ac615c434746e4bea") {
       public override fun createAllTables(connection: SQLiteConnection) {
-        connection.execSQL("CREATE TABLE IF NOT EXISTS `assistant_data` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `assistantName` TEXT NOT NULL, `assistantAge` INTEGER NOT NULL, `assistantSex` TEXT NOT NULL, `assistantDescription` TEXT, `userId` INTEGER NOT NULL, `assistantImg` TEXT, `assistantMessageLimit` INTEGER NOT NULL)")
+        connection.execSQL("CREATE TABLE IF NOT EXISTS `assistant_data` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `assistantName` TEXT NOT NULL, `assistantAge` INTEGER NOT NULL, `assistantSex` INTEGER NOT NULL, `assistantDescription` TEXT, `assistantImg` TEXT, `assistantMessageLimit` INTEGER NOT NULL)")
         connection.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)")
-        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f5f0af2c1dea9ae2378f58390a62388e')")
+        connection.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5c8fb574acba09f47c2eeb88a43f53dd')")
       }
 
       public override fun dropAllTables(connection: SQLiteConnection) {
@@ -64,9 +64,8 @@ public class AssistantDatabase_Impl : AssistantDatabase() {
         _columnsAssistantData.put("id", TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsAssistantData.put("assistantName", TableInfo.Column("assistantName", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsAssistantData.put("assistantAge", TableInfo.Column("assistantAge", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsAssistantData.put("assistantSex", TableInfo.Column("assistantSex", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
+        _columnsAssistantData.put("assistantSex", TableInfo.Column("assistantSex", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsAssistantData.put("assistantDescription", TableInfo.Column("assistantDescription", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
-        _columnsAssistantData.put("userId", TableInfo.Column("userId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsAssistantData.put("assistantImg", TableInfo.Column("assistantImg", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY))
         _columnsAssistantData.put("assistantMessageLimit", TableInfo.Column("assistantMessageLimit", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY))
         val _foreignKeysAssistantData: MutableSet<TableInfo.ForeignKey> = mutableSetOf()

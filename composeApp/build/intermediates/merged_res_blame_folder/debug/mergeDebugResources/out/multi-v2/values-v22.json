@@ -4,7 +4,7 @@
             "outputFile": "ru.sonchasapps.gvosy.composeApp-mergeDebugResources-48:/values-v22/values-v22.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\user\\.gradle\\caches\\8.14.3\\transforms\\8a3d935ae759eca125f14f3d24d85bbf\\transformed\\appcompat-1.7.1\\res\\values-v22\\values-v22.xml",
+                    "source": "C:\\Users\\user\\.gradle\\caches\\8.14.3\\transforms\\bc95f5dde3a0d6d7554f2b402b1c3d64\\transformed\\appcompat-1.7.1\\res\\values-v22\\values-v22.xml",
                     "from": {
                         "startLines": "2,3,4,9",
                         "startColumns": "4,4,4,4",

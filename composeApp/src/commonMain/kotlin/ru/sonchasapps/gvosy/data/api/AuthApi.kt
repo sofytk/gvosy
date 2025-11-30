@@ -14,7 +14,6 @@ class AuthApi(private val client: HttpClient) {
     private val domain = "http://192.168.31.251:8081"
 
     suspend fun register(request: AuthRequest): AuthResponse {
-        println("AuthApi: POST /api/auth/register body=$request")
         val response = client.post("$domain/api/auth/register") {
             contentType(ContentType.Application.Json)
             setBody(request)
@@ -24,7 +23,6 @@ class AuthApi(private val client: HttpClient) {
     }
 
     suspend fun login(request: LogInRequest): AuthResponse {
-        println("AuthApi: POST /api/auth/login body=$request")
         val response = client.post("$domain/api/auth/login") {
             contentType(ContentType.Application.Json)
             setBody(request)

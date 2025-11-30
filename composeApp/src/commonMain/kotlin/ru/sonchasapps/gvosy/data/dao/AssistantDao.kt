@@ -11,17 +11,11 @@ import ru.sonchasapps.gvosy.data.models.AssistantEntity
 @Dao
 interface AssistantDao {
     @Insert()
-    suspend fun insert(assistantEntity: AssistantEntity)
-
-    @Update
-    suspend fun update(assistantEntity: AssistantEntity)
-
-    @Upsert
-    suspend fun upsert(assistantEntity: AssistantEntity)
+    suspend fun add(assistantEntity: AssistantEntity)
 
     @Delete
     suspend fun delete(assistantEntity: AssistantEntity)
 
-    @Query("SELECT * from assistant_data WHERE id = :id")
-    fun getAssistant(id: Long): AssistantEntity?
+    @Query("SELECT * from assistant_data")
+    fun getAssistant(): AssistantEntity?
 }

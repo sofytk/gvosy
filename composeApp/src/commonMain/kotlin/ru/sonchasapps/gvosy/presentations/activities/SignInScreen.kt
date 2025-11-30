@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
@@ -138,6 +139,7 @@ fun SignInScreen(navController: NavHostController, viewModel: UserViewModel) {
                         end = Offset.Infinite
                     )
                 ),
+                visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 shape = RoundedCornerShape(cornerRadiusTextField)
             )

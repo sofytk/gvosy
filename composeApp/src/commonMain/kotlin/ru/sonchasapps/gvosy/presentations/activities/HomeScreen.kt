@@ -1,6 +1,7 @@
 package ru.sonchasapps.gvosy.presentations.activities
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -55,149 +56,181 @@ import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
 @Composable
 fun HomeScreen(navController: NavHostController, userViewModel: UserViewModel) {
     AppTheme() {
-        var height by remember { mutableStateOf(0f) }
-        var width by remember { mutableStateOf(0f) }
         var text by remember { mutableStateOf("") }
         var assistantName by remember { mutableStateOf("Jane") }
 
-        Column() {
-            Spacer(Modifier.height(30.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth().height(40.dp).padding(top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Image(
-                    painter = painterResource(Res.drawable.icon_notes),
-                    contentDescription = "Voice icon",
-                    modifier = Modifier.size(30.dp).weight(1f).align(Alignment.CenterVertically)
-                )
-                Spacer(Modifier.width(50.dp).weight(6f))
-                Image(
-                    painter = painterResource(Res.drawable.avatar_dove),
-                    contentDescription = "Circle Image",
-                    contentScale = ContentScale.FillHeight,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                )
-                Text(
-                    text = assistantName,
-                    modifier = Modifier.weight(2f),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontSize = bodyTextSize
-                )
-                Spacer(Modifier.width(50.dp).weight(6f))
-                Image(
-                    painter = painterResource(Res.drawable.icon_settings),
-                    contentDescription = "Voice icon",
-                    modifier = Modifier.size(30.dp).weight(1f)
-                )
-            }
-        }
         Box(
-            modifier = Modifier.fillMaxSize().padding(bottom = 60.dp),
-            contentAlignment = Alignment.BottomCenter
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            Column() {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Spacer(Modifier.height(30.dp))
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(IntrinsicSize.Min)
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                        .height(40.dp)
+                        .padding(top = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceAround
                 ) {
-                    IconButton(
-                        modifier = Modifier.size(40.dp)
-                            .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) { },
-                        colors = IconButtonDefaults.iconButtonColors(
-                            contentColor = MaterialTheme.colorScheme.primary,
-                            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                        ),
-                        onClick = {  }
-                    ) {
-                        Icon(
-                            painter = painterResource(Res.drawable.icon_add),
-                            contentDescription = "Add icon",
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-
-                    OutlinedTextField(
-                        value = text,
-                        onValueChange = { text = it },
+                    Image(
+                        painter = painterResource(Res.drawable.icon_notes),
+                        contentDescription = "Notes icon",
                         modifier = Modifier
+                            .size(30.dp)
                             .weight(1f)
-                            .padding(horizontal = 8.dp),
-                        placeholder = {
-                            Text(
-                                "Text message...",
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
-                        },
-                        colors = OutlinedTextFieldDefaults.colors(
-                            focusedBorderColor = MaterialTheme.colorScheme.primary,
-                            unfocusedBorderColor = MaterialTheme.colorScheme.primary,
-                            focusedTextColor = MaterialTheme.colorScheme.onBackground,
-                            unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
-                            cursorColor = MaterialTheme.colorScheme.primary,
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                        shape = RoundedCornerShape(20.dp),
-                        singleLine = false,
-                        maxLines = 1000
+                            .align(Alignment.CenterVertically)
                     )
+                    Spacer(Modifier.width(50.dp).weight(6f))
+                    Image(
+                        painter = painterResource(Res.drawable.avatar_dove),
+                        contentDescription = "Circle Image",
+                        contentScale = ContentScale.FillHeight,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clip(CircleShape)
+                    )
+                    Text(
+                        text = assistantName,
+                        modifier = Modifier.weight(2f),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = bodyTextSize
+                    )
+                    Spacer(Modifier.width(50.dp).weight(6f))
+                    Image(
+                        painter = painterResource(Res.drawable.icon_settings),
+                        contentDescription = "Settings icon",
+                        modifier = Modifier.size(30.dp).weight(1f)
+                    )
+                }
 
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(1f)
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
+
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 60.dp),
+                contentAlignment = Alignment.BottomCenter
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.background)
+                ) {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(IntrinsicSize.Min)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         IconButton(
-                            onClick = { /* действие для микрофона */ },
-                            modifier = Modifier.size(40.dp)  .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) { /* действие для микрофона */ },
+                            modifier = Modifier
+                                .size(40.dp)
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null
+                                ) { },
                             colors = IconButtonDefaults.iconButtonColors(
                                 contentColor = MaterialTheme.colorScheme.primary,
                                 disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                            )
+                            ),
+                            onClick = { userViewModel.logout() }
                         ) {
                             Icon(
-                                painter = painterResource(Res.drawable.icon_mic),
-                                contentDescription = "Voice icon",
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-                        IconButton(
-                            onClick = { /* действие для камеры */ },
-                            modifier = Modifier.size(35.dp)  .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) { /* действие для микрофона */ },
-                            colors = IconButtonDefaults.iconButtonColors(
-                                contentColor = MaterialTheme.colorScheme.primary,
-                                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-                            )
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.icon_camera),
-                                contentDescription = "Camera icon",
+                                painter = painterResource(Res.drawable.icon_add),
+                                contentDescription = "Add icon",
                                 modifier = Modifier.size(24.dp)
                             )
                         }
+
+                        OutlinedTextField(
+                            value = text,
+                            onValueChange = { text = it },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(horizontal = 8.dp),
+                            placeholder = {
+                                Text(
+                                    "Text message...",
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            },
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedBorderColor = MaterialTheme.colorScheme.primary,
+                                unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                                unfocusedTextColor = MaterialTheme.colorScheme.onBackground,
+                                cursorColor = MaterialTheme.colorScheme.primary,
+                            ),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                            shape = RoundedCornerShape(20.dp),
+                            singleLine = false,
+                            maxLines = 1000
+                        )
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            IconButton(
+                                onClick = { /* действие для микрофона */ },
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .clickable(
+                                        interactionSource = MutableInteractionSource(),
+                                        indication = null
+                                    ) { /* действие для микрофона */ },
+                                colors = IconButtonDefaults.iconButtonColors(
+                                    contentColor = MaterialTheme.colorScheme.primary,
+                                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.icon_mic),
+                                    contentDescription = "Voice icon",
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+
+                            IconButton(
+                                onClick = { /* действие для камеры */ },
+                                modifier = Modifier
+                                    .size(35.dp)
+                                    .clickable(
+                                        interactionSource = MutableInteractionSource(),
+                                        indication = null
+                                    ) { /* действие для микрофона */ },
+                                colors = IconButtonDefaults.iconButtonColors(
+                                    contentColor = MaterialTheme.colorScheme.primary,
+                                    disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+                                )
+                            ) {
+                                Icon(
+                                    painter = painterResource(Res.drawable.icon_camera),
+                                    contentDescription = "Camera icon",
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            }
+                        }
                     }
                 }
-
             }
-            Spacer(Modifier.height(30.dp))
         }
     }
 }
-
 
 

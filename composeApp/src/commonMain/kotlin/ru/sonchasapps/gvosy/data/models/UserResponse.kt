@@ -1,5 +1,6 @@
 package ru.sonchasapps.gvosy.data.models
 
+import io.ktor.http.ContentType.MultiPart.Encrypted
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -15,7 +16,7 @@ data class UserResponse(
     fun toEntity(): UserEntity {
         return UserEntity(
             userName = this.userName,
-            userToken = this.userToken,
+            userToken = userToken,
             isPremium = this.isPremium,
         )
     }

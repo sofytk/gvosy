@@ -12,6 +12,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 
@@ -42,6 +43,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import ru.sonchasapps.gvosy.data.models.AssistantEntity
+import ru.sonchasapps.gvosy.domain.AssistantState
+import ru.sonchasapps.gvosy.domain.AuthUiState
 import ru.sonchasapps.gvosy.presentations.theme.ui.theme.AppTheme
 import ru.sonchasapps.gvosy.presentations.theme.ui.theme.btnTextSize
 import ru.sonchasapps.gvosy.presentations.theme.ui.theme.cornerRadius
@@ -60,9 +63,26 @@ fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostCo
         var height by remember { mutableStateOf(0f) }
         var width by remember { mutableStateOf(0f) }
         val user by userViewModel.user.collectAsState()
+        val state by assistantViewModel.state.collectAsState()
 
         LaunchedEffect(Unit) {
             userViewModel.getUser()
+        }
+
+        when (state) {
+            is AssistantState.Success -> {
+                LaunchedEffect(Unit) {
+                    navController.navigate("approved_assistant_screen")
+                }
+            }
+            is AssistantState.Error -> {
+                Text(text = "Error: ${(state as AssistantState.Error).message}")
+            }
+            is AssistantState.Loading -> {
+                CircularProgressIndicator()
+            }
+            is AssistantState.Idle -> Unit
+            else -> {}
         }
 
         Column(
@@ -77,9 +97,9 @@ fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostCo
         ) {
 
             Spacer(Modifier.height((height / 10).dp))
-            Text(text = "Welcome ${user?.userName}!", fontSize = subTitleTextSize)
+            Text(text = "Welcome ${user?.userName}!", fontSize = subTitleTextSize, color = MaterialTheme.colorScheme.onBackground)
             Spacer(Modifier.height((height / 40).dp))
-            Text(text = "Create your assistant", fontSize = subTitleTextSize)
+            Text(text = "Create your assistant", fontSize = subTitleTextSize, color = MaterialTheme.colorScheme.onBackground)
             Spacer(Modifier.height((height / 40).dp))
 
             var assistantName by rememberSaveable { mutableStateOf("") }
@@ -214,17 +234,13 @@ fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostCo
                 shape = RoundedCornerShape(cornerRadius),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
                 onClick = {
-//                    val assistantEntity = AssistantEntity(
-//                        assistantName = assistantName,
-//                        assistantAge = assistantAge.toInt(),
-//                        assistantImg = null,
-//                        assistantDescription = assistantDescriptions,
-//                        assistantSex = assistantSex,
-//                        assistantMessageLimit = 100,
-////                        assistantMessagesId = "",
-//                    )
-//                    assistantViewModel.insertAssistant(assistantEntity)
-                    navController.navigate("approved_assistant_screen")
+                    assistantViewModel.addAssistant(
+                        name = assistantName,
+                        age = assistantAge.toInt(),
+                        desc = assistantDescriptions,
+                        sex = assistantSex == "Female"
+                    )
+
                 }
             ) {
                 Text(

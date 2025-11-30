@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import ru.sonchasapps.gvosy.data.dao.UsersDao
 import ru.sonchasapps.gvosy.data.models.UserEntity
 
-@Database(entities = [UserEntity::class], version = 3, exportSchema = false)
+@Database(entities = [UserEntity::class], version = 3)
 abstract class UsersDatabase : RoomDatabase() {
     abstract fun getUserDao(): UsersDao
 
