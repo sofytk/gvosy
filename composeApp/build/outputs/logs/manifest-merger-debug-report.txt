@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-24:12
-INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-24:12
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-26:12
+INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-26:12
+INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-26:12
+INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:2:1-26:12
 MERGED from [io.insert-koin:koin-androidx-compose:3.5.0] C:\Users\user\.gradle\caches\8.14.3\transforms\82d642756fb005a4bfb760e6a032d513\transformed\koin-androidx-compose-3.5.0\AndroidManifest.xml:2:1-9:12
 MERGED from [io.insert-koin:koin-compose-android:4.1.1] C:\Users\user\.gradle\caches\8.14.3\transforms\68f446778489e3b2ae0cae4453c4f96f\transformed\koin-compose-release\AndroidManifest.xml:2:1-7:12
 MERGED from [io.insert-koin:koin-android:4.1.1] C:\Users\user\.gradle\caches\8.14.3\transforms\16174ea59272375f97db820e172a2bd3\transformed\koin-android-4.1.1\AndroidManifest.xml:2:1-7:12
@@ -99,9 +99,17 @@ MERGED from [com.squareup.okhttp3:okhttp-android:5.1.0] C:\Users\user\.gradle\ca
 MERGED from [com.squareup.okhttp3:okhttp-android:5.1.0] C:\Users\user\.gradle\caches\8.14.3\transforms\6d893b04b40d16b46211d8e515323e04\transformed\okhttp-release\AndroidManifest.xml:8:5-67
 	android:name
 		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:3:22-64
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:4:5-79
+	android:name
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:4:22-76
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:5:5-71
+	android:name
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:5:22-68
 application
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:4:5-22:19
-INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:4:5-22:19
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:6:5-24:19
+INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:6:5-24:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.9.0] C:\Users\user\.gradle\caches\8.14.3\transforms\8c11bcd1038f613c719388c92afbf773\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [org.jetbrains.compose.components:components-resources-android:1.9.0] C:\Users\user\.gradle\caches\8.14.3\transforms\8c11bcd1038f613c719388c92afbf773\transformed\library-release\AndroidManifest.xml:7:5-14:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.9.0] C:\Users\user\.gradle\caches\8.14.3\transforms\ef1e943effa27abfe5621a40f33f3f2c\transformed\ui-tooling\AndroidManifest.xml:22:5-26:19
@@ -127,35 +135,35 @@ MERGED from [androidx.startup:startup-runtime:1.2.0] C:\Users\user\.gradle\cache
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.15.0] C:\Users\user\.gradle\caches\8.14.3\transforms\b34e5e725b1c2dd9a2212aa480bf3398\transformed\core-1.15.0\AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:10:9-35
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:12:9-35
 	android:label
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:7:9-41
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:9:9-41
 	android:roundIcon
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:9:9-54
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:11:9-54
 	android:icon
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:6:9-43
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:8:9-43
 	android:allowBackup
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:5:9-35
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:7:9-35
 	android:theme
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:11:9-72
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:13:9-72
 	android:usesCleartextTraffic
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:8:9-44
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:10:9-44
 activity#ru.sonchasapps.gvosy.MainActivity
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:12:9-20:20
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:14:9-22:20
 	android:exported
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:13:13-36
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:15:13-36
 	android:name
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:14:13-41
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:16:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:15:13-19:29
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:17:13-21:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:16:17-69
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:18:17-69
 	android:name
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:16:25-66
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:18:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:18:17-77
+ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:20:17-77
 	android:name
-		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:18:27-74
+		ADDED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml:20:27-74
 uses-sdk
 INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\user\Documents\MyApps\Gvosy\composeApp\src\androidMain\AndroidManifest.xml

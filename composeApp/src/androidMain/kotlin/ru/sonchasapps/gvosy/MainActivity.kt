@@ -11,6 +11,7 @@ import org.koin.core.context.startKoin
 import ru.sonchasapps.gvosy.di.appModule
 import ru.sonchasapps.gvosy.presentations.navigation.AppNavigation
 import ru.sonchasapps.gvosy.presentations.viewModels.AssistantViewModel
+import ru.sonchasapps.gvosy.presentations.viewModels.MainViewModel
 import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
 
 
@@ -28,7 +29,8 @@ class MainActivity : ComponentActivity() {
             val userViewModel: UserViewModel by viewModel()
             userViewModel.checkAuth()
             val assistantViewModel: AssistantViewModel by viewModel()
-            AppNavigation(userViewModel, assistantViewModel)
+            val mainViewModel: MainViewModel by viewModel()
+            AppNavigation(userViewModel, assistantViewModel, mainViewModel)
         }
     }
 }

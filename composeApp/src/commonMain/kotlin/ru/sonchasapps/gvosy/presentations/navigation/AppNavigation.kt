@@ -18,10 +18,11 @@ import ru.sonchasapps.gvosy.presentations.activities.SplashScreen
 import ru.sonchasapps.gvosy.presentations.activities.WelcomeScreen
 import ru.sonchasapps.gvosy.presentations.viewModels.UserViewModel
 import ru.sonchasapps.gvosy.presentations.viewModels.AssistantViewModel
+import ru.sonchasapps.gvosy.presentations.viewModels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation(userViewModel: UserViewModel, assistantViewModel: AssistantViewModel) {
+fun AppNavigation(userViewModel: UserViewModel, assistantViewModel: AssistantViewModel, mainViewModel: MainViewModel) {
 
     val navController = rememberNavController()
     val state by userViewModel.authState.collectAsState()
@@ -70,7 +71,7 @@ fun AppNavigation(userViewModel: UserViewModel, assistantViewModel: AssistantVie
             ApprovedAssistantScreen(navController)
         }
         composable("home_screen") {
-            HomeScreen(navController, userViewModel)
+            HomeScreen(navController, userViewModel, mainViewModel)
         }
     }
 }

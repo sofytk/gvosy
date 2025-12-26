@@ -9,6 +9,8 @@ import ru.sonchasapps.gvosy.data.database.AssistantDatabase
 import ru.sonchasapps.gvosy.data.database.UsersDatabase
 import ru.sonchasapps.gvosy.data.dao.AssistantDao
 import ru.sonchasapps.gvosy.data.dao.UsersDao
+import ru.sonchasapps.gvosy.presentations.viewModels.MainViewModel
+import ru.sonchasapps.gvosy.presentations.viewModels.VoiceRecorder
 
 val androidDatabaseModule = module {
     single<UsersDatabase> {
@@ -61,4 +63,6 @@ val androidDatabaseModule = module {
     }
     single<AssistantDao> { get<AssistantDatabase>().getAssistantDao() }
 
+    single<VoiceRecorder> { VoiceRecorder(androidContext()) }
+    factory { MainViewModel(get()) }
 }

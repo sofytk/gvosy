@@ -11,7 +11,7 @@ import ru.sonchasapps.gvosy.data.models.AuthResponse
 import ru.sonchasapps.gvosy.data.models.LogInRequest
 
 class AuthApi(private val client: HttpClient) {
-    private val domain = "http://192.168.31.251:8081"
+    private val domain = "http://192.168.31.251:8080"
 
     suspend fun register(request: AuthRequest): AuthResponse {
         val response = client.post("$domain/api/auth/register") {

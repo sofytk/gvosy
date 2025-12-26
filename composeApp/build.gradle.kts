@@ -1,4 +1,4 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -68,11 +68,7 @@ kotlin {
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutinesSwing)
 
-        }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
@@ -120,16 +116,4 @@ dependencies {
 
 room {
     schemaDirectory("$projectDir/schemas")
-}
-
-compose.desktop {
-    application {
-        mainClass = "ru.sonchasapps.gvosy.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "ru.sonchasapps.gvosy"
-            packageVersion = "1.0.0"
-        }
-    }
 }
