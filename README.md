@@ -11,7 +11,6 @@ The app allows users to record voice notes and freely talk about their thoughts.
 - Offline-first data storage with synchronization
 
 ##### Tech Stack
-- Compose Multiplatform
 - Kotlin 
 - Room (local database) 
 - Koin (dependency injection) 
