@@ -4,14 +4,17 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import java.util.UUID
 
 class AppPreferences(private val dataStore: DataStore<Preferences>) {
 
     companion object {
         val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
+        val CURRENT_CONVERSATION_ID = stringPreferencesKey("current_conversation_id")
         val MICROPHONE_PERMISSION_ASKED = booleanPreferencesKey("microphone_permission_asked")
         val MICROPHONE_PERMISSION_GRANTED = booleanPreferencesKey("microphone_permission_granted")
     }
@@ -49,4 +52,22 @@ class AppPreferences(private val dataStore: DataStore<Preferences>) {
             preferences[MICROPHONE_PERMISSION_GRANTED] ?: false
         }.first()
     }
+
+    suspend fun getOrCreateConversationId(): String {
+        return dataStore.data.map { preferences ->
+            preferences[CURRENT_CONVERSATION_ID]
+        }.first() ?: generateConversationId()
+    }
+
+
+    private fun generateConversationId(): String {
+        return UUID.randomUUID().toString()
+    }
+
+    suspend fun getCurrentConversationId(): String? {
+        return dataStore.data.map { preferences ->
+            preferences[CURRENT_CONVERSATION_ID]
+        }.first()
+    }
+
 }

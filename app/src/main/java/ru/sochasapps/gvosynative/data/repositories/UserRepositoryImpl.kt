@@ -1,6 +1,8 @@
 package ru.sochasapps.gvosynative.data.repositories
 
 
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ru.sochasapps.gvosynative.data.api.AuthApi
@@ -12,9 +14,12 @@ import ru.sochasapps.gvosynative.data.dto.UserResponse
 import ru.sochasapps.gvosynative.data.dto.LogInRequest
 
 
-
 class UserRepositoryImpl (private val userDao: UsersDao,
                           private val api: AuthApi, ) : UserRepository {
+
+    companion object {
+        private val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
+    }
 
     override suspend fun registerUser(request: AuthRequest): Result<UserEntity> = withContext(Dispatchers.IO){
         return@withContext try {

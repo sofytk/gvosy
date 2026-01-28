@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,6 +22,14 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        val properties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            localPropertiesFile.inputStream().use { properties.load(it) }
+        }
+
+        buildConfigField("String", "AWS_ACCESS_KEY", "\"${properties.getProperty("aws.access.key", "")}\"")
+        buildConfigField("String", "AWS_SECRET_KEY", "\"${properties.getProperty("aws.secret.key", "")}\"")
         buildConfigField("String", "S3_ENDPOINT", "\"https://storage.yandexcloud.net\"")
         buildConfigField("String", "S3_REGION", "\"ru-central1\"")
         buildConfigField("String", "S3_BUCKET", "\"my-audio-testing\"")
@@ -32,26 +42,28 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("String", "AWS_ACCESS_KEY", "\"${System.getenv("AWS_ACCESS_KEY")}\"")
-            buildConfigField("String", "AWS_SECRET_KEY", "\"${System.getenv("AWS_SECRET_KEY")}\"")
-        }
-        debug {
-
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    kotlin {
+        jvmToolchain(21)
     }
 
     buildFeatures {
         compose = true
         buildConfig = true
+    }
+
+    configurations {
+        create("cleanedAnnotations")
+        implementation {
+            exclude(group = "org.jetbrains", module = "annotations")
+        }
     }
 
     packaging {
@@ -79,6 +91,7 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.compose.ui)
+    implementation(libs.room.compiler)
     ksp(libs.androidx.room.compiler)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.ktor.client.websockets)
@@ -106,7 +119,14 @@ dependencies {
     implementation("software.amazon.awssdk:auth")
     implementation("software.amazon.awssdk:regions")
 
-    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
+
+    implementation("com.arthenica:mobile-ffmpeg-full:4.4.LTS")
+
+
+    implementation(libs.androidx.datastore.preferences)
+    implementation(libs.gson)
+
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
@@ -117,6 +137,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 }
+
+
 
 room {
     schemaDirectory("$projectDir/schemas")

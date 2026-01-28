@@ -3,7 +3,6 @@ package ru.sochasapps.gvosynative.presentations.activities
 import android.Manifest
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -42,10 +41,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import org.koin.compose.viewmodel.koinViewModel
 import ru.sochasapps.gvosynative.R
-import ru.sochasapps.gvosynative.domain.viewModels.FirstLaunchUIState
-import ru.sochasapps.gvosynative.domain.viewModels.FirstLaunchViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.FirstLaunchUIState
+import ru.sochasapps.gvosynative.presentations.viewModels.FirstLaunchViewModel
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.AppTheme
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.bodyTextSize
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.btnTextSize
@@ -54,7 +55,8 @@ import ru.sochasapps.gvosynative.presentations.theme.ui.theme.titleTextSize
 
 
 @Composable
-fun ApprovedAssistantScreen(navController: NavHostController, viewModel : FirstLaunchViewModel) {
+fun ApprovedAssistantScreen(navController: NavHostController,
+                            viewModel : FirstLaunchViewModel = koinViewModel()) {
     AppTheme {
         var height by remember { mutableStateOf(0f) }
         var width by remember { mutableStateOf(0f) }

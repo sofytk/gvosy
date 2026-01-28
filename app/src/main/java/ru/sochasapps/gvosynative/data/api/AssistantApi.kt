@@ -10,6 +10,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.contentType
 import ru.sochasapps.gvosynative.data.dto.AssistantRequest
 import ru.sochasapps.gvosynative.data.dto.AssistantResponse
+import ru.sochasapps.gvosynative.data.dto.MessageDto
 
 class AssistantApi(private val client: HttpClient) {
     private val domain = "http://192.168.31.251:8080"
@@ -29,6 +30,15 @@ class AssistantApi(private val client: HttpClient) {
             setBody(request)
         }
     }
+
+    fun sendVoiceMessage(audioUrl: String, conversationId: String?) {
+
+    }
+
+    fun getConversation(string: String) : List<MessageDto> {
+        return emptyList()
+    }
+
 //    suspend fun getAssistantData(/*request: UserRequest*/) : /*AssistantResponse*/ {
 ////        val request = " "
 ////        val response = client.post("$domain/api/assistant/getData"){

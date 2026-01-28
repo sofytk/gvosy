@@ -34,7 +34,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import org.koin.compose.viewmodel.koinViewModel
 
 import ru.sochasapps.gvosynative.domain.state.AuthUiState
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.AppTheme
@@ -42,10 +44,10 @@ import ru.sochasapps.gvosynative.presentations.theme.ui.theme.btnTextSize
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.cornerRadius
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.cornerRadiusTextField
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.subTitleTextSize
-import ru.sochasapps.gvosynative.domain.viewModels.UserViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.UserViewModel
 
 @Composable
-fun SignInScreen(navController: NavHostController, viewModel: UserViewModel) {
+fun SignInScreen(navController: NavHostController, viewModel: UserViewModel = koinViewModel()) {
     AppTheme {
         var height by remember { mutableStateOf(0f) }
         var width by remember { mutableStateOf(0f) }

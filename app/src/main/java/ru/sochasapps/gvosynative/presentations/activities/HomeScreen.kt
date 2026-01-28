@@ -1,6 +1,6 @@
 package ru.sochasapps.gvosynative.presentations.activities
 
-import android.content.Context.MODE_PRIVATE
+import android.annotation.SuppressLint
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.RepeatMode
@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -44,7 +45,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -69,34 +69,46 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.edit
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 import ru.sochasapps.gvosynative.R
+import ru.sochasapps.gvosynative.data.models.ActionType
 import ru.sochasapps.gvosynative.data.models.MessageEntity
 import ru.sochasapps.gvosynative.data.models.RecordedAudio
-import ru.sochasapps.gvosynative.domain.viewModels.MainViewModel
-import ru.sochasapps.gvosynative.domain.viewModels.UserViewModel
 import ru.sochasapps.gvosynative.presentations.component.MessageItem
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.AppTheme
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.bodyTextSize
+import ru.sochasapps.gvosynative.presentations.viewModels.ChatViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.MainViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.UserViewModel
 
+@SuppressLint("RememberInComposition")
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    userViewModel: UserViewModel,
-    mainViewModel: MainViewModel
+    userViewModel: UserViewModel = koinViewModel(),
+    mainViewModel: MainViewModel = koinViewModel(),
+    chatViewModel: ChatViewModel = koinViewModel()
 ) {
     val uploadState by mainViewModel.uploadState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val chatMessages by chatViewModel.chatMessages.collectAsState()
+    val isLoading by chatViewModel.isLoading.collectAsState()
 
     AppTheme() {
         var text by remember { mutableStateOf("") }
         var assistantName by remember { mutableStateOf("Jane") }
-        var chatItems = mutableListOf<MessageEntity>()
+
+        val listState = rememberLazyListState()
+        LaunchedEffect(chatMessages.size) {
+            if (chatMessages.isNotEmpty()) {
+                listState.animateScrollToItem(0)
+            }
+        }
 
         Box(
             modifier = Modifier
@@ -123,7 +135,9 @@ fun HomeScreen(
                             .weight(1f)
                             .align(Alignment.CenterVertically)
                     )
-                    Spacer(Modifier.width(50.dp).weight(6f))
+                    Spacer(Modifier
+                        .width(50.dp)
+                        .weight(6f))
                     Image(
                         painter = painterResource(R.drawable.avatar_dove),
                         contentDescription = "Circle Image",
@@ -138,28 +152,39 @@ fun HomeScreen(
                         color = MaterialTheme.colorScheme.onBackground,
                         fontSize = bodyTextSize
                     )
-                    Spacer(Modifier.width(50.dp).weight(6f))
+                    Spacer(Modifier
+                        .width(50.dp)
+                        .weight(6f))
                     Image(
                         painter = painterResource(R.drawable.icon_settings),
                         contentDescription = "Settings icon",
-                        modifier = Modifier.size(30.dp).weight(1f)
+                        modifier = Modifier
+                            .size(30.dp)
+                            .weight(1f)
                     )
                 }
 
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(bottom = 150.dp)
                         .weight(1f)
                         .background(MaterialTheme.colorScheme.background)
                 ) {
-                    LazyColumn {
-                        items(chatItems.size) { message ->
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier.fillMaxSize(),
+                        reverseLayout = true
+                    ) {
+                        items(chatMessages.size) { index ->
+                            val message = chatMessages[index]
                             MessageItem(
-                                message = chatItems[message],
+                                message = message,
                                 onActionClick = { action ->
+                                    chatViewModel.onActionClick(action)
                                     when (action.type) {
-                                        // ActionType.NOTE -> navigateToNote(action.targetId)
-                                        // ActionType.TODO_LIST -> navigateToTodo(action.targetId)
+                                        ActionType.NOTE -> {}
+                                        ActionType.TODO_LIST -> {}
                                         else -> {}
                                     }
                                 }
@@ -205,6 +230,7 @@ fun HomeScreen(
                         val audioUrl = (uploadState as MainViewModel.UploadState.Success).audioUrl
 
                         LaunchedEffect(audioUrl) {
+                            chatViewModel.sendVoiceMessage(audioUrl)
                             delay(2000)
                             mainViewModel.resetUploadState()
                         }

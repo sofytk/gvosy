@@ -39,20 +39,24 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import org.koin.compose.viewmodel.koinViewModel
 import ru.sochasapps.gvosynative.domain.state.AssistantState
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.AppTheme
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.btnTextSize
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.cornerRadius
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.cornerRadiusTextField
 import ru.sochasapps.gvosynative.presentations.theme.ui.theme.subTitleTextSize
-import ru.sochasapps.gvosynative.domain.viewModels.AssistantViewModel
-import ru.sochasapps.gvosynative.domain.viewModels.UserViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.AssistantViewModel
+import ru.sochasapps.gvosynative.presentations.viewModels.UserViewModel
 
 
 @ExperimentalMaterial3Api
 @Composable
-fun CreateAssistantScreen(userViewModel: UserViewModel, navController: NavHostController, assistantViewModel: AssistantViewModel) {
+fun CreateAssistantScreen(navController: NavHostController,
+                          userViewModel: UserViewModel = koinViewModel(),
+                          assistantViewModel: AssistantViewModel = koinViewModel()) {
 
     AppTheme {
         var height by remember { mutableStateOf(0f) }
