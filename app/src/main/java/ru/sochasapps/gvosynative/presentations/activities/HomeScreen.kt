@@ -174,7 +174,8 @@ fun HomeScreen(
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
-                        reverseLayout = true
+                        reverseLayout = false,
+                        verticalArrangement = Arrangement.Bottom
                     ) {
                         items(chatMessages.size) { index ->
                             val message = chatMessages[index]

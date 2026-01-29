@@ -16,6 +16,9 @@ import java.net.URI
 import ru.sochasapps.gvosynative.BuildConfig
 import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient
 import java.util.Properties
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class S3Repository(
     private val context: Context,
@@ -51,7 +54,7 @@ class S3Repository(
             val request = PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(objectKey)
-                .contentType("audio/m4a")
+                .contentType("audio/ogg")
                 .build()
 
             s3Client.putObject(request, RequestBody.fromFile(audioFile))
@@ -62,6 +65,7 @@ class S3Repository(
                 .build()
 
             val url = s3Client.utilities().getUrl(urlRequest).toString()
+            Log.i("RRRR", "file: ${audioFile.path}")
             Log.i("RRRR", "URL: $url")
             Result.success(url)
         } catch (e: Exception) {

@@ -7,5 +7,5 @@ data class AssistantAction(
 )
 
 enum class ActionType {
-    NOTE, TODO_LIST, REMINDER
+    NOTE, TODO_LIST, REMINDER, JOURNAL, WEEKLY_PLAN, PROJECT_IDEA
 }

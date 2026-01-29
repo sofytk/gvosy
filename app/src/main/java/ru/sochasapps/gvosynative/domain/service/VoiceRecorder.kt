@@ -31,7 +31,7 @@ class VoiceRecorder(private val context: Context) {
 
         file = File(
             appFolder,
-            "voice_${System.currentTimeMillis()}.m4a"
+            "voice_${System.currentTimeMillis()}.ogg"
         )
 
 //        file = File(
@@ -47,8 +47,8 @@ class VoiceRecorder(private val context: Context) {
                 withContext(Dispatchers.Main) {
                     setAudioSource(MediaRecorder.AudioSource.MIC)
                 }
-                setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
+                setOutputFormat(MediaRecorder.OutputFormat.OGG)
+                setAudioEncoder(MediaRecorder.AudioEncoder.OPUS)
                 setOutputFile(file.absolutePath)
                 prepare()
                 start()

@@ -12,6 +12,10 @@ import java.util.UUID
 
 class AppPreferences(private val dataStore: DataStore<Preferences>) {
 
+    val conversationIdFlow: Flow<String?> = dataStore.data.map { preferences ->
+        preferences[CURRENT_CONVERSATION_ID]
+    }
+
     companion object {
         val IS_FIRST_LAUNCH = booleanPreferencesKey("is_first_launch")
         val CURRENT_CONVERSATION_ID = stringPreferencesKey("current_conversation_id")
@@ -54,11 +58,30 @@ class AppPreferences(private val dataStore: DataStore<Preferences>) {
     }
 
     suspend fun getOrCreateConversationId(): String {
-        return dataStore.data.map { preferences ->
+        val existingId = dataStore.data.map { preferences ->
             preferences[CURRENT_CONVERSATION_ID]
-        }.first() ?: generateConversationId()
+        }.first()
+
+        return if (existingId != null) {
+            existingId
+        } else {
+            val newId = generateConversationId()
+            saveConversationId(newId)
+            newId
+        }
     }
 
+    suspend fun saveConversationId(conversationId: String) {
+        dataStore.edit { preferences ->
+            preferences[CURRENT_CONVERSATION_ID] = conversationId
+        }
+    }
+
+    suspend fun clearConversationId() {
+        dataStore.edit { preferences ->
+            preferences.remove(CURRENT_CONVERSATION_ID)
+        }
+    }
 
     private fun generateConversationId(): String {
         return UUID.randomUUID().toString()

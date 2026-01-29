@@ -121,8 +121,7 @@ dependencies {
 
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
-    implementation("com.arthenica:mobile-ffmpeg-full:4.4.LTS")
-
+    implementation("com.github.NaikSoftware:StompProtocolAndroid:1.6.6")
 
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.gson)

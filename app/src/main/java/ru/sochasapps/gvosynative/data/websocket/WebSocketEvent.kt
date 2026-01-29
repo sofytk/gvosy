@@ -46,257 +46,261 @@ class WebSocketServiceImpl(
 
     private val TAG = "WebSocketService"
 
-    private val client = OkHttpClient.Builder()
-        .pingInterval(30, TimeUnit.SECONDS)
-        .retryOnConnectionFailure(true)
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .writeTimeout(30, TimeUnit.SECONDS)
-        .build()
-
-    private var webSocket: WebSocket? = null
-    private var currentAssistantId: String? = null
-
     private val _events = MutableSharedFlow<WebSocketEvent>(
         replay = 1,
         extraBufferCapacity = 10
     )
     override val events: Flow<WebSocketEvent> = _events.asSharedFlow()
 
-    private val gson = Gson()
-    private var reconnectJob: Job? = null
-    private var connectionAttempts = 0
-    private val maxReconnectAttempts = 10
-
+    private var webSocket: WebSocket? = null
     private val coroutineScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+    private val gson = Gson()
+
+    private val subscriptions = mutableMapOf<String, String>()
+    private var isStompConnected = false
+    private var pendingSubscriptions = mutableListOf<String>()
+
+    private val client = OkHttpClient.Builder()
+        .pingInterval(30, TimeUnit.SECONDS)
+        .retryOnConnectionFailure(true)
+        .connectTimeout(10, TimeUnit.SECONDS)
+        .readTimeout(0, TimeUnit.SECONDS)
+        .build()
 
     override fun connect() {
-        reconnectJob?.cancel()
-
         coroutineScope.launch {
-            _events.tryEmit(WebSocketEvent.Connecting)
+            _events.emit(WebSocketEvent.Connecting)
             connectInternal()
         }
     }
 
-    private suspend fun connectInternal() {
-        connectionAttempts++
 
+    private suspend fun connectInternal() {
         try {
             val token = userRepository.getCurrentUser()?.userToken
-
             if (token == null) {
-                Log.w(TAG, "No auth token available for WebSocket connection")
-                _events.tryEmit(WebSocketEvent.Unauthorized)
+                _events.emit(WebSocketEvent.Unauthorized)
                 return
             }
 
-            val url = if (baseUrl.contains("?")) {
-                "$baseUrl"
-            } else {
-                "$baseUrl/ws"
-            }
-
-            Log.d(TAG, "Connecting to WebSocket: $url")
+            val url = "$baseUrl/ws"
+            Log.d(TAG, "Connecting to STOMP WebSocket: $url")
 
             val request = Request.Builder()
                 .url(url)
                 .addHeader("Authorization", "Bearer $token")
-                .addHeader("User-Agent", "Android-App")
                 .build()
 
             webSocket = client.newWebSocket(request, object : WebSocketListener() {
                 override fun onOpen(webSocket: WebSocket, response: Response) {
-                    Log.d(TAG, "WebSocket connection established")
-                    connectionAttempts = 0
-
-                    coroutineScope.launch {
-                        if (response.code == 401) {
-                            _events.tryEmit(WebSocketEvent.Unauthorized)
-                            disconnect()
-                        } else {
-                            _events.tryEmit(WebSocketEvent.Connected("session_${System.currentTimeMillis()}"))
-
-                            currentAssistantId?.let { assistantId ->
-                                subscribeToAssistantInternal(assistantId)
-                            }
-                        }
-                    }
+                    Log.d(TAG, "WebSocket opened, sending STOMP CONNECT")
+                    sendStompConnect()
                 }
 
                 override fun onMessage(webSocket: WebSocket, text: String) {
-                    Log.d(TAG, "Received WebSocket message: $text")
-                    try {
-                        val message = gson.fromJson(text, MessageDto::class.java)
-                        coroutineScope.launch {
-                            _events.tryEmit(WebSocketEvent.MessageReceived(message))
-                        }
-                    } catch (e: JsonSyntaxException) {
-                        Log.e(TAG, "Error parsing JSON message: ${e.message}")
-                    }
-                }
-
-                override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                    Log.d(TAG, "Received binary message: ${bytes.size} bytes")
+                    Log.d(TAG, "Received STOMP frame:\n$text") // Показываем полный фрейм
+                    handleStompFrame(text)
                 }
 
                 override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                    Log.d(TAG, "WebSocket closing: code=$code, reason=$reason")
-                    webSocket.close(code, reason)
-
-                    coroutineScope.launch {
-                        handleConnectionClosed(code, reason)
-                    }
+                    Log.d(TAG, "WebSocket closing: $code - $reason")
+                    webSocket.close(1000, null)
                 }
 
                 override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                    Log.d(TAG, "WebSocket closed: code=$code, reason=$reason")
+                    Log.d(TAG, "WebSocket closed")
+                    isStompConnected = false
                     coroutineScope.launch {
-                        _events.tryEmit(WebSocketEvent.Disconnected)
-                        scheduleReconnection()
+                        _events.emit(WebSocketEvent.Disconnected)
                     }
                 }
 
                 override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                    Log.e(TAG, "WebSocket connection failed: ${t.message}", t)
-
+                    Log.e(TAG, "WebSocket failure", t)
+                    isStompConnected = false
                     coroutineScope.launch {
-                        handleConnectionFailure(t, response)
+                        _events.emit(WebSocketEvent.Error(t))
                     }
                 }
             })
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error creating WebSocket connection: ${e.message}")
+            Log.e(TAG, "Connection error", e)
+            _events.emit(WebSocketEvent.Error(e))
+        }
+    }
+
+    private fun sendStompConnect() {
+        val connectFrame = buildString {
+            append("CONNECT\n")
+            append("accept-version:1.1,1.2\n")
+            append("heart-beat:10000,10000\n")
+            append("\n")
+            append('\u0000')
+        }
+        webSocket?.send(connectFrame)
+        Log.d(TAG, "Sent STOMP CONNECT")
+    }
+
+    private fun handleStompFrame(frame: String) {
+        val lines = frame.trim().split("\n")
+        val command = lines.firstOrNull() ?: return
+
+        Log.d(TAG, "STOMP command: $command")
+
+        when (command) {
+            "CONNECTED" -> {
+                Log.d(TAG, "STOMP Connected successfully")
+                isStompConnected = true
+                coroutineScope.launch {
+                    _events.emit(WebSocketEvent.Connected("stomp_session"))
+
+                    processPendingSubscriptions()
+                }
+            }
+            "MESSAGE" -> {
+                handleMessageFrame(frame)
+            }
+            "ERROR" -> {
+                Log.e(TAG, "STOMP Error frame: $frame")
+                coroutineScope.launch {
+                    _events.emit(WebSocketEvent.Error(Exception("STOMP Error: $frame")))
+                }
+            }
+            "RECEIPT" -> {
+                Log.d(TAG, "STOMP Receipt: $frame")
+            }
+        }
+    }
+
+    private fun handleMessageFrame(frame: String) {
+        try {
+            Log.d(TAG, "Parsing MESSAGE frame:\n$frame")
+
+            val parts = frame.split("\n\n", limit = 2)
+            if (parts.size < 2) {
+                Log.w(TAG, "Invalid MESSAGE frame format")
+                return
+            }
+
+            val headers = parts[0].split("\n")
+            val headersMap = headers.drop(1).associate { line ->
+                val (key, value) = line.split(":", limit = 2)
+                key to value
+            }
+
+            Log.d(TAG, "Headers: $headersMap")
+
+            val body = parts[1].replace("\u0000", "").trim()
+
+            if (body.isEmpty()) {
+                Log.w(TAG, "Empty message body")
+                return
+            }
+
+            Log.d(TAG, "Message body: $body")
+
+            val messageDto = gson.fromJson(body, MessageDto::class.java)
+            Log.d(TAG, "Parsed MessageDto: $messageDto")
+
             coroutineScope.launch {
-                _events.tryEmit(WebSocketEvent.Error(e))
-                scheduleReconnection()
+                _events.emit(WebSocketEvent.MessageReceived(messageDto))
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error parsing MESSAGE frame", e)
+            e.printStackTrace()
         }
-    }
-
-    private suspend fun handleConnectionClosed(code: Int, reason: String) {
-        when (code) {
-            1008, 1003 -> {
-                _events.tryEmit(WebSocketEvent.Unauthorized)
-                reconnectJob?.cancel()
-            }
-            else -> {
-                _events.tryEmit(WebSocketEvent.Disconnected)
-                scheduleReconnection()
-            }
-        }
-    }
-
-    private suspend fun handleConnectionFailure(t: Throwable, response: Response?) {
-        if (response?.code == 401 || response?.code == 403) {
-            _events.tryEmit(WebSocketEvent.Unauthorized)
-            reconnectJob?.cancel()
-        } else {
-            _events.tryEmit(WebSocketEvent.Error(t))
-            scheduleReconnection()
-        }
-    }
-
-    private suspend fun scheduleReconnection() {
-        if (connectionAttempts >= maxReconnectAttempts) {
-            Log.w(TAG, "Max reconnection attempts reached ($maxReconnectAttempts)")
-            return
-        }
-
-        reconnectJob?.cancel()
-        reconnectJob = coroutineScope.launch {
-            val delayMillis = calculateReconnectionDelay(connectionAttempts)
-            Log.d(TAG, "Scheduling reconnection in ${delayMillis}ms (attempt $connectionAttempts)")
-
-            _events.tryEmit(WebSocketEvent.Reconnecting)
-            delay(delayMillis)
-
-            try {
-                val token = userRepository.getCurrentUser()?.userToken
-                if (token != null) {
-                    connectInternal()
-                } else {
-                    Log.w(TAG, "No auth token, skipping reconnection")
-                    _events.tryEmit(WebSocketEvent.Unauthorized)
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error getting auth token for reconnection: ${e.message}")
-            }
-        }
-    }
-
-    private fun calculateReconnectionDelay(attempt: Int): Long {
-        val baseDelay = 1000L
-        val maxDelay = 30000L
-        val delay = baseDelay * (1 shl minOf(attempt, 5))
-        return minOf(delay, maxDelay)
-    }
-
-    override fun disconnect() {
-        Log.d(TAG, "Disconnecting WebSocket")
-
-        reconnectJob?.cancel()
-        reconnectJob = null
-
-        webSocket?.close(1000, "User requested disconnect")
-        webSocket = null
-
-        currentAssistantId = null
-        connectionAttempts = 0
-    }
-
-    override suspend fun sendMessage(message: Any): Boolean {
-        return withContext(Dispatchers.IO) {
-            try {
-                if (webSocket == null) {
-                    Log.w(TAG, "Cannot send message: WebSocket is not connected")
-                    return@withContext false
-                }
-
-                val json = gson.toJson(message)
-                val sent = webSocket?.send(json) ?: false
-
-                if (sent) {
-                    Log.d(TAG, "Message sent successfully")
-                } else {
-                    Log.w(TAG, "Failed to send message")
-                }
-
-                sent
-            } catch (e: Exception) {
-                Log.e(TAG, "Error sending WebSocket message: ${e.message}")
-                false
-            }
-        }
-    }
-
-    override fun isConnected(): Boolean {
-        return webSocket != null
     }
 
     override fun subscribeToAssistant(assistantId: String) {
-        currentAssistantId = assistantId
+        Log.d(TAG, "subscribeToAssistant called for: $assistantId")
 
-        if (isConnected() && assistantId.isNotBlank()) {
-            coroutineScope.launch {
-                subscribeToAssistantInternal(assistantId)
+        if (!isStompConnected) {
+            Log.d(TAG, "STOMP not connected yet, adding to pending subscriptions")
+            pendingSubscriptions.add(assistantId)
+            return
+        }
+
+        subscribeToAssistantInternal(assistantId)
+    }
+
+    private fun processPendingSubscriptions() {
+        Log.d(TAG, "Processing ${pendingSubscriptions.size} pending subscriptions")
+        pendingSubscriptions.forEach { assistantId ->
+            subscribeToAssistantInternal(assistantId)
+        }
+        pendingSubscriptions.clear()
+    }
+
+    private fun subscribeToAssistantInternal(assistantId: String) {
+        val destination = "/topic/assistant/"
+        val subscriptionId = "sub-$assistantId"
+
+        val subscribeFrame = buildString {
+            append("SUBSCRIBE\n")
+            append("id:$subscriptionId\n")
+            append("destination:$destination\n")
+            append("ack:auto\n")
+            append("\n")
+            append('\u0000')
+        }
+
+        val sent = webSocket?.send(subscribeFrame) ?: false
+        if (sent) {
+            subscriptions[assistantId] = subscriptionId
+            Log.d(TAG, "Subscribed to: $destination")
+        } else {
+            Log.e(TAG, "Failed to subscribe to: $destination")
+        }
+    }
+
+    override fun disconnect() {
+        subscriptions.forEach { (_, subId) ->
+            val unsubscribeFrame = buildString {
+                append("UNSUBSCRIBE\n")
+                append("id:$subId\n")
+                append("\n")
+                append('\u0000')
             }
+            webSocket?.send(unsubscribeFrame)
         }
+
+        val disconnectFrame = "DISCONNECT\n\n\u0000"
+        webSocket?.send(disconnectFrame)
+
+        webSocket?.close(1000, "Client disconnect")
+        webSocket = null
+        isStompConnected = false
+        subscriptions.clear()
+        pendingSubscriptions.clear()
     }
 
-    private suspend fun subscribeToAssistantInternal(assistantId: String) {
-        try {
-            val subscriptionMessage = mapOf(
-                "type" to "SUBSCRIBE",
-                "assistantId" to assistantId,
-                "timestamp" to System.currentTimeMillis()
-            )
+    override suspend fun sendMessage(message: Any): Boolean {
+        if (!isStompConnected) {
+            Log.w(TAG, "Cannot send: STOMP not connected")
+            return false
+        }
 
-            sendMessage(subscriptionMessage)
-            Log.d(TAG, "Subscribed to assistant: $assistantId")
+        return try {
+            val body = gson.toJson(message)
+            val sendFrame = buildString {
+                append("SEND\n")
+                append("destination:/app/message\n")
+                append("content-type:application/json\n")
+                append("content-length:${body.length}\n")
+                append("\n")
+                append(body)
+                append('\u0000')
+            }
+
+            val sent = webSocket?.send(sendFrame) ?: false
+            Log.d(TAG, "Message sent: $sent")
+            sent
         } catch (e: Exception) {
-            Log.e(TAG, "Error subscribing to assistant: ${e.message}")
+            Log.e(TAG, "Error sending message", e)
+            false
         }
     }
+
+    override fun isConnected(): Boolean = isStompConnected
 }
